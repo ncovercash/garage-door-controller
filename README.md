@@ -142,15 +142,42 @@ Software Installation:
 
     When the app is open in your web browser, it should display one entry for each garage door configured in your `config.json` file, along with the current status and timestamp from the time the status was last changed.  Click on any entry to open or close the door (each click will behave as if you pressed the garage button once).
 
-Using IFTTT and Basic API:
+API Documentation and Integration:
 ------------
+
+This application has a basic API that makes extensibility super easy!
+
+To use it, enable `allow_api` in the config file and add an API key.  We recommend using something like [this](https://passwordsgenerator.net/?length=128&symbols=0&numbers=1&lowercase=1&uppercase=1&similar=0&ambiguous=0&client=1&autoselect=1) to generate a large key.
+
+
+## API Usage
+
+The API can be used to send a command to the controller via a URL similar to the following: `http://your.host.here/api?key=<api goes here>&command=<command goes here>&id=<door id or all_doors>`.
+
+| Endpoint | Return Values                                                 | Description                                                                                       |
+|----------|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| `toggle` | `OK`                                                          | Toggles the state of the door(s)                                                                  |
+| `open`   | `OK`                                                          | Opens the door(s)                                                                                 |
+| `close`  | `OK`                                                          | Closes the door(s)                                                                                |
+| `state`  | `0` for open, `1` for closed, `2` for opening, `3` for closed | Get the door's current position/state.  These are compatible with Apple's Home Accessory Protocol |
+
+## Integrations
+
+### IFTTT
+
 IFTTT has been implemented using a combination of sending 'alerts' to the maker channel on IFTTT and using the webhooks channel to send commands to the controller.
 
 Set key under IFTTT to your maker key found under the maker channel.
 Set ifttt_event_open and ifttt_event_close to the event code you want to trigger for each door.
 
-API can be used via IFTTT webhooks (or anything else that can make get requests) to send a command to the controller (eg `http://public ip or dns/api?key=<key you set>&command=<open, close, or toggle>&id=<door id or all_doors>`)
-Key is a string you set in the config.json, I recommend using something like https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx to generate a random 256bit or higher key.
+### Homebridge/HomeKit
+
+This will allow you to add the garage opener to the Home app on Apple devices.  To do this, perform the following steps:
+
+* Install `homebridge-garage-remote-http`
+* Set `openURL`, `closeURL`, `statusURL` to the appropriate API endpoints in the configuration
+  * If you have issues, make sure that loading the URLs in your browser return the expected results.
+* Enable `polling` and set `pollInterval` to a lower value (recommended to be <10 as long as they are on the same network and load is not terrible)
 
 Close All
 ------------
