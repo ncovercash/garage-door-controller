@@ -392,10 +392,14 @@ class APIHandler(Resource):
                     elif command == "open":
                         if state == "closed":
                             self.controller.toggle(doorId)
+                            d.last_action = 'open'
+                            d.last_action_time = time.time()
                         return 'OK'
                     elif command == "close":
                         if state == "open":
                             self.controller.toggle(doorId)
+                            d.last_action = 'close'
+                            d.last_action_time = time.time()
                         return 'OK'
                     elif command == "state":
                         # based on Apple/HomeKit 9.30 door state encodings
