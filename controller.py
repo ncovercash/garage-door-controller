@@ -402,11 +402,11 @@ class APIHandler(Resource):
                         # makes this easy to use with homebridge-garage-remote-http
                         if state == "open":
                             return '0'
-                        else if state == "closed":
+                        elif state == "closed":
                             return '1'
-                        else if state == "opening":
+                        elif state == "opening":
                             return '2'
-                        else if state == "closing":
+                        elif state == "closing":
                             return '3'
                         else:
                             request.setResponseCode(500)
