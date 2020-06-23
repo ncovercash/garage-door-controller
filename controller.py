@@ -397,6 +397,20 @@ class APIHandler(Resource):
                         if state == "open":
                             self.controller.toggle(doorId)
                         return 'OK'
+                    elif command == "state":
+                        # based on Apple/HomeKit 9.30 door state encodings
+                        # makes this easy to use with homebridge-garage-remote-http
+                        if state == "open":
+                            return '0'
+                        else if state == "closed":
+                            return '1'
+                        else if state == "opening":
+                            return '2'
+                        else if state == "closing":
+                            return '3'
+                        else:
+                            request.setResponseCode(500)
+                            return 'Error: unknown state'
                     else:
                         request.setResponseCode(400)
                         return 'Error: Command not implemented'
