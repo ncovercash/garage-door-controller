@@ -401,13 +401,13 @@ class APIHandler(Resource):
                         # based on Apple/HomeKit 9.30 door state encodings
                         # makes this easy to use with homebridge-garage-remote-http
                         if state == "open":
-                            return '0'
+                            return "0"
                         elif state == "closed":
-                            return '1'
+                            return "1"
                         elif state == "opening":
-                            return '2'
+                            return "2"
                         elif state == "closing":
-                            return '3'
+                            return "3"
                         else:
                             request.setResponseCode(500)
                             return 'Error: unknown state'
